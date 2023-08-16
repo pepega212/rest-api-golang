@@ -105,6 +105,7 @@ func UpdateUserController(c echo.Context) error {
 		if v.Id == id {
 			users[i].Name = input.Name
 			users[i].Email = input.Email
+			users[i].Password = input.Password
 			users[i].Address = input.Address
 			result := configs.DB.Save(&users[i])
 			if result.Error != nil {
