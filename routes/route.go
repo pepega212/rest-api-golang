@@ -6,11 +6,18 @@ import (
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/rs/cors"
 	"go.mod/controllers"
 )
 
 func InitRoute(e *echo.Echo) {
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://127.0.0.1:5500"}, // Replace with your local server's origin
+		AllowedMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowedHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
+	})
 	e.Use(middleware.Logger())
+	e.Use(echo.WrapMiddleware(c.Handler))
 	e.POST("/login", controllers.LoginController)
 
 	auth := e.Group("")
